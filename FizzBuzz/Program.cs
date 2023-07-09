@@ -18,6 +18,7 @@ namespace FizzBuzz
             string FilePath = Environment.ExpandEnvironmentVariables("%USERPROFILE%\\Documents\\FizzBuzzConfig.JSON");
 
             bool AddNewValue = false;
+            bool DeleteValue = false;
 
             if (File.Exists(FilePath)
 )
@@ -32,15 +33,21 @@ namespace FizzBuzz
 
             if (CA.Configs.Count > 0)
             {
-                //print each object as a line
                 CA.displayList();
 
-                Console.WriteLine("press \'y\' to add/ edit lines");
+                Console.WriteLine("press [A] to add/ edit lines or [D] to delete, any other button to continue");
                 String res = Console.ReadKey().KeyChar.ToString().ToUpper();
                 Console.Clear();
 
-                if (res == "Y")
+                if (res == "A")
+                {
                     AddNewValue = true;
+                }
+                else if (res == "D")
+                {
+                    DeleteValue = true;
+                }
+
             }
             else
             {
@@ -48,34 +55,42 @@ namespace FizzBuzz
                 AddNewValue = true;
             }
 
+            if (DeleteValue)
+            {
+                while (DeleteValue)
+                {
+                    //Method for deleting value.
+                    DeleteValue = CA.deleteConfigLoop();
+                }
+                //check if they now want to add a value, if the list is empty force them to
+                if(CA.Configs.Count == 0)
+                {
+                    Console.WriteLine("the list is empty, you must now add values");
+                    AddNewValue = true;
+                }
+                else
+                {
+                    Console.WriteLine("would you like to add values [Y]");
+                    String response = Console.ReadKey().KeyChar.ToString().ToUpper();
+                    Console.Clear();
+
+                    if (response == "Y")
+                        AddNewValue = true;
+                }
+
+            }
+
             if(AddNewValue)
             {
                 while (AddNewValue)
                 {
-                    Console.WriteLine("Please enter a Number");
-                    var factor = Console.ReadLine();
-                    Console.WriteLine("Please enter a Keyword");
-                    var keyword = Console.ReadLine();
-                    Console.Clear();
-
-                    if(CA.addConfig(factor, keyword))
-                    {
-                        Console.WriteLine($"{factor} and {keyword} have been added successfully, would you like to add another? [Y]");
-                        String response = Console.ReadKey().KeyChar.ToString().ToUpper();
-                        Console.Clear();
-                        
-                        if (response != "Y")
-                            AddNewValue = false;
-
-                    }
-                    else
-                    {
-                        Console.WriteLine("incorrect syntax, unable to add, please try again");
-                    }
+                    AddNewValue = CA.addConfigLoop();
                 }
 
             }
-            //write object to Json to save.
+
+            Console.WriteLine("yay you are ready to go");
+            Console.ReadLine();
             var jsonInput = JsonSerializer.Serialize(CA);
             File.WriteAllText(FilePath, jsonInput);
 
