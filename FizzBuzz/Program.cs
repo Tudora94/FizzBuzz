@@ -89,11 +89,25 @@ namespace FizzBuzz
 
             }
 
-            Console.WriteLine("yay you are ready to go");
-            Console.ReadLine();
             var jsonInput = JsonSerializer.Serialize(CA);
             File.WriteAllText(FilePath, jsonInput);
+            Console.WriteLine("Object written to Json");
+            Console.ReadLine();
 
+            //do the fizzBuzz
+            Console.Clear();
+            Console.WriteLine("Enter Max value to count to");
+            bool validValue = false;
+            var maxi = 0;
+
+            while (!validValue)
+            {
+                if (int.TryParse(Console.ReadLine(), out maxi))
+                    validValue = true;
+            }
+            Console.Clear();
+            fizzBuzzLogic fb = new fizzBuzzLogic();
+            fb.FizzBuzz(CA, maxi);
             Console.ReadLine();
         }
     }
