@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="ConfigArray.cs" />
     <Compile Include="ConfigModel.cs" />
+    <Compile Include="fizzBuzzLogic.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
