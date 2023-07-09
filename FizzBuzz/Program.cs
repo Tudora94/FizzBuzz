@@ -105,7 +105,7 @@ namespace FizzBuzz
                 if (int.TryParse(Console.ReadLine(), out maxi))
                     validValue = true;
             }
-
+            Console.Clear();
             fizzBuzzLogic fb = new fizzBuzzLogic();
             fb.FizzBuzz(CA, maxi);
             Console.ReadLine();
